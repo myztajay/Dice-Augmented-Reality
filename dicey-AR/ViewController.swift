@@ -92,16 +92,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if let touch = touches.first {
             let touchLocation = touch.location(in: sceneView)
             let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
+            
             if let hitResults = results.first {
                 print("touched plane")
                 let diceScene = SCNScene(named: "art.scnassets/dice.scn")!
                 let diceNode = diceScene.rootNode.childNode(withName: "dice", recursively: true)
                 diceNode?.position = SCNVector3(
                     x: hitResults.worldTransform.columns.3.x ,
-                    y: hitResults.worldTransform.columns.3.y + diceNode?.boundingSphere.radius,
+                    y: hitResults.worldTransform.columns.3.y,
                     z: hitResults.worldTransform.columns.3.z)
                 diceNode?.scale = SCNVector3(0.01, 0.01, 0.01)
                 sceneView.scene.rootNode.addChildNode(diceNode ?? SCNNode())
+                
+                let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+                let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+                diceNode?.runAction(
+                    SCNAction.rotateBy(x: CGFloat(randomX * 5), y:0, z: CGFloat(randomZ * 5), duration: 0.5)
+                )
             } else {
                 print("TOUCHED SOMEWHERE ELSE")
             }
