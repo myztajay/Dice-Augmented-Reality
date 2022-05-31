@@ -10,42 +10,42 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
-
+    
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.sceneView.debugOptions =  [ARSCNDebugOptions.showFeaturePoints]
-//        // Set the view's delegate
+        //        // Set the view's delegate
         sceneView.delegate = self
-//
-//        // Create a new scene
-//        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-//        let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
-//        let sphere = SCNSphere(radius: 0.2)
-//        // Set the scene to the view
-//        let material = SCNMaterial()
-//        material.diffuse.contents = UIImage(named: "art.scnassets/2k_mars.jpeg")
-//        sphere.materials = [material]
-//        let node = SCNNode()
-//        node.position = SCNVector3(0, 0.1, -0.5)
-//        node.geometry = sphere
-//        sceneView.scene.rootNode.addChildNode(node)
+        //
+        //        // Create a new scene
+        //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        //        let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+        //        let sphere = SCNSphere(radius: 0.2)
+        //        // Set the scene to the view
+        //        let material = SCNMaterial()
+        //        material.diffuse.contents = UIImage(named: "art.scnassets/2k_mars.jpeg")
+        //        sphere.materials = [material]
+        //        let node = SCNNode()
+        //        node.position = SCNVector3(0, 0.1, -0.5)
+        //        node.geometry = sphere
+        //        sceneView.scene.rootNode.addChildNode(node)
         
         sceneView.autoenablesDefaultLighting = true
-//        let diceScene = SCNScene(named: "art.scnassets/dice.scn")!
-//
-//
-//        let diceNode = diceScene.rootNode.childNode(withName: "dice", recursively: true)
-//
-//        diceNode?.position = SCNVector3(0, 0, -0.7)
-//        diceNode?.scale = SCNVector3(0.01, 0.01, 0.01)
-//        sceneView.scene.rootNode.addChildNode(diceNode ?? SCNNode())
+        //        let diceScene = SCNScene(named: "art.scnassets/dice.scn")!
+        //
+        //
+        //        let diceNode = diceScene.rootNode.childNode(withName: "dice", recursively: true)
+        //
+        //        diceNode?.position = SCNVector3(0, 0, -0.7)
+        //        diceNode?.scale = SCNVector3(0.01, 0.01, 0.01)
+        //        sceneView.scene.rootNode.addChildNode(diceNode ?? SCNNode())
         
         
     }
     
-        
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -92,22 +92,30 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if let touch = touches.first {
             let touchLocation = touch.location(in: sceneView)
             let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
-            if !results.isEmpty{
+            if let hitResults = results.first {
                 print("touched plane")
+                let diceScene = SCNScene(named: "art.scnassets/dice.scn")!
+                let diceNode = diceScene.rootNode.childNode(withName: "dice", recursively: true)
+                diceNode?.position = SCNVector3(
+                    x: hitResults.worldTransform.columns.3.x ,
+                    y: hitResults.worldTransform.columns.3.y + diceNode?.boundingSphere.radius,
+                    z: hitResults.worldTransform.columns.3.z)
+                diceNode?.scale = SCNVector3(0.01, 0.01, 0.01)
+                sceneView.scene.rootNode.addChildNode(diceNode ?? SCNNode())
             } else {
                 print("TOUCHED SOMEWHERE ELSE")
             }
         }
     }
-
+    
     // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
+    /*
+     // Override to create and configure nodes for anchors added to the view's session.
+     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+     let node = SCNNode()
      
-        return node
-    }
-*/
+     return node
+     }
+     */
 }
