@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--AR DICEY-->
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="dicey_AR" customModuleProvider="target" sceneMemberID="viewController">
@@ -29,7 +29,12 @@
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="aBB-kN-mN1">
+                    <navigationItem key="navigationItem" title="AR DICEY" id="aBB-kN-mN1">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="Vbn-R4-HAF">
+                            <connections>
+                                <action selector="trashPressed:" destination="BV1-FR-VrT" id="OvA-5D-Kqf"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="ROLL!" id="qU2-Su-gNa">
                             <connections>
                                 <action selector="rollPressed:" destination="BV1-FR-VrT" id="Dep-OJ-iiV"/>

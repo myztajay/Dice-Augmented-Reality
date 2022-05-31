@@ -13,7 +13,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     
+    @IBAction func trashPressed(_ sender: UIBarButtonItem) {
+        deleteDice()
+    }
     var diceArray = [SCNNode]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.sceneView.debugOptions =  [ARSCNDebugOptions.showFeaturePoints]
@@ -51,7 +55,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        rollAll() 
+        rollAll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,6 +130,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             for dice in diceArray {
                 roll(dice: dice)
             }
+        }
+    }
+    
+    func deleteDice() {
+        for dice in diceArray {
+            dice.removeFromParentNode()
         }
     }
     
